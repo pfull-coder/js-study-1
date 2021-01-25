@@ -32,8 +32,20 @@ function clearNumberIcons() {
     }
 }
 
+//정답을 맞췄을 때 처리할 함수 정의
+function processCorrectAnswer(eventTarget) {
+    console.log('process:', eventTarget);
+
+    const $finishBox = document.getElementById('finish');
+    $finishBox.classList.add('show');
+    //정답 숫자 아이콘에 id=move 부여
+    eventTarget.setAttribute('id', 'move');
+}
+
 //정답 체크 함수 정의
-function checkAnswer() {
+function checkAnswer(eventTarget) {
+
+    console.log('checkAnswer:',eventTarget);
 
     //const secret = gameDatas.secret;
     //const answer = gameDatas.answer;
@@ -46,7 +58,8 @@ function checkAnswer() {
 
     //정답을 맞춘 경우
     if (secret === answer) {
-
+        processCorrectAnswer(eventTarget);
+        return;
     } else if (secret < answer) {
         //DOWN인 경우
         gameDatas.max = answer - 1;
@@ -75,7 +88,7 @@ function checkAnswer() {
 
     //숫자 아이콘 클릭 이벤트
     $numbers.addEventListener('click', function(e) {
-
+        
         // console.log('아이콘이 클릭됨!', e.target.textContent);
 
         //gameDatas의 answer프로퍼티에 사용자가 선택한 숫자를 저장.
@@ -83,6 +96,6 @@ function checkAnswer() {
         // console.log(gameDatas);
 
         //정답 체크 함수 호출
-        checkAnswer();
+        checkAnswer(e.target);
     });
 }());

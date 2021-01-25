@@ -147,3 +147,72 @@ aside.result div.selected {
         transform: translateY(-20px);
     }
 }
+
+
+/* finish 영역 */
+#finish {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 60%;
+    height: 200px;
+    /* line-height: 200px; */
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid #000;
+    border-radius: 20px;
+    background: tomato;
+    font-size: 80px;
+    font-weight: bold;
+
+    opacity: 0;
+    z-index: -10;
+}
+
+#finish.show {
+    animation: showUp 1s linear forwards;
+}
+@keyframes showUp {
+    0% {
+        opacity: 0;
+        z-index: -10;
+        top: -50%;
+    }
+    50% {
+        opacity: 0.5;
+        top: 0;
+    }
+    100% {
+        opacity: 1;
+        z-index: 10;
+        top: 50%;
+    }
+}
+
+/* 
+특정 아이콘에 id=move가 부여되면 
+해당 아이콘이 커지면서 움직이도록 설정 
+*/
+#move {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    z-index: 10;
+    border: 4px dashed;
+    animation: moveCorrect 2s linear forwards;
+}
+@keyframes moveCorrect {
+    0% {
+        transform: translateX(0) scale(1);
+        top: 0;
+    }
+    100% {
+        transform: translateX(-50%) scale(2);
+        top: 10%;
+    }
+}
