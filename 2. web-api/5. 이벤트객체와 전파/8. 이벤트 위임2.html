@@ -30,6 +30,7 @@
         <li id="apple" class="active">Apple</li>
         <li id="banana">Banana</li>
         <li id="grape">Grape</li>
+        <div id="mango">Mango</div>
     </ul>
 
     <div>선택된 과일: <em class="msg">apple</em></div>
@@ -45,6 +46,13 @@
 
         //이벤트 핸들러 함수
         function activate(e) {
+            
+            // console.log(e.target.matches('li'));
+            if (!e.target.matches('li')) {
+                return;
+            }
+            console.log(e.target, '에 이벤트 작동!');
+
             for (let $target of [...$fruits.children]) {
                 /*
                     toggle의 두번째 인수의 논리값이 true로 판명나면

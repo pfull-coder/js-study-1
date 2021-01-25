@@ -88,6 +88,10 @@ function checkAnswer(eventTarget) {
 
     //숫자 아이콘 클릭 이벤트
     $numbers.addEventListener('click', function(e) {
+
+        if (!e.target.matches('div.icon')) {
+            return;
+        }
         
         // console.log('아이콘이 클릭됨!', e.target.textContent);
 
