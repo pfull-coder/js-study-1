@@ -77,6 +77,42 @@ function insertToDoData() {
     $todoText.value = '';
 }
 
+//배열 인덱스 탐색 함수(dataId이용)
+function findIndexByDataId(dataId) {
+
+    for (let i=0; i < todos.length; i++) {
+        let todo = todos[i];
+        if (dataId === todo.id) {
+            return i;
+        }
+    }
+    return null;
+}
+
+//체크 박스 이벤트의 세부처리 수행함수
+function changeCheckState($checkbox) {
+    //1. label에 클래스 checked를 추가해야한다
+    //   이 함수는 label 노드를 가지고 있어야 한다.
+    const $label = $checkbox.parentElement;
+    $label.classList.toggle('checked');
+
+    //2. 실제로 서버가 있다면 서버에도 체크 상태를 반영시켜야 함.
+    //   배열의 done 값을 변경해야 함.
+    const $li = $label.parentElement;
+    const dataId = +$li.dataset.id;
+    // console.log(dataId);
+
+    //3. 배열의 탐색하여 data-id와 일치하는 id프로퍼티를 
+    //   가진 객체의 인덱스를 얻어옴.
+    const foundIndex = findIndexByDataId(dataId);
+
+    //4. 찾아낸 인덱스로 배열에서 해당 객체 접근한 뒤 done을 수정
+    todos[foundIndex].done = !todos[foundIndex].done;
+
+    console.log(todos[foundIndex]);
+
+}
+
 //메인 실행 함수
 (function () {
 
@@ -88,6 +124,18 @@ function insertToDoData() {
         //console.log('추가 버튼이 잘 클릭됩니다~');
 
         insertToDoData();
+    });
+
+    //할 일 완료 체크 이벤트
+    const $todoList = document.querySelector('ul.todo-list');
+
+    $todoList.addEventListener('change', function(e) {
+        if (!e.target.matches('.todo-list label.checkbox input[type=checkbox]')) {
+            return;
+        }
+        //console.log('체크박스 이벤트 실행됨!');
+        //console.log(e.target.parentElement);
+        changeCheckState(e.target);
     });
 
 }());

@@ -102,6 +102,11 @@ section.todo-template .content .todo-list .todo-list-item .checkbox .text {
     flex : 1;
 }
 
+section.todo-template .content .todo-list .todo-list-item .checkbox.checked .text {
+    color: #adb5bd;
+    text-decoration: line-through;
+}
+
 section.todo-template .content .todo-list .todo-list-item .remove {
     display: flex;
     align-items: center;
