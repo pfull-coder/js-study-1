@@ -1,9 +1,5 @@
 //일정 데이터가 들어 있는 배열 선언
-const todos = [{
-    id: 1,
-    text: '할 일 1',
-    done: false
-}];
+const todos = [];
 
 //새로운 할 일의 id값을 만들어주는 함수
 function makeNewId() {
@@ -170,6 +166,13 @@ function setModifyToDoText($modCheckSpan) {
     $textSpan.classList.add('text');
     $textSpan.textContent = $modInput.value;
 
+    //배열 데이터 수정
+    const dataId = +$label.parentElement.dataset.id;
+    const foundIndex = findIndexByDataId(dataId);
+    todos[foundIndex].text = $modInput.value;
+    console.log(todos[foundIndex]);
+
+    //인풋과 텍스트스팬 교체
     $label.replaceChild($textSpan, $modInput);
     $modCheckSpan.parentElement.innerHTML = '<span class="lnr lnr-undo"></span>';
 }
