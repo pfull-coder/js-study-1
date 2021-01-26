@@ -1,11 +1,9 @@
 //일정 데이터가 들어 있는 배열 선언
-const todos = [
-    {
-        id: 1,
-        text: '할 일 1',
-        done: false
-    }
-];
+const todos = [{
+    id: 1,
+    text: '할 일 1',
+    done: false
+}];
 
 //새로운 할 일의 id값을 만들어주는 함수
 function makeNewId() {
@@ -55,7 +53,7 @@ function insertToDoData() {
     const $todoText = document.getElementById('todo-text');
     //사용자가 입력을 하지 않았을 때 함수를 종료 시켜야함.
     //trim(): 문자열의 앞 뒤 공백을 제거
-    if($todoText.value.trim() === '') {
+    if ($todoText.value.trim() === '') {
         // alert('필수 입력사항입니다!');
         $todoText.setAttribute('placeholder', '필수 입력사항입니다!');
         $todoText.style.background = 'orangered';
@@ -90,7 +88,7 @@ function insertToDoData() {
 //배열 인덱스 탐색 함수(dataId이용)
 function findIndexByDataId(dataId) {
 
-    for (let i=0; i < todos.length; i++) {
+    for (let i = 0; i < todos.length; i++) {
         let todo = todos[i];
         if (dataId === todo.id) {
             return i;
@@ -140,7 +138,7 @@ function removeToDoData($delSpan) {
     console.log(todos);
 }
 
-//수정 이벤트 처리 함수
+//수정 모드 진입 이벤트 처리 함수 
 function modifyToDoText($modSpan) {
 
     //label의 span을 input으로 교체
@@ -155,7 +153,25 @@ function modifyToDoText($modSpan) {
     $modInput.setAttribute('value', $textSpan.textContent);
     $modInput.classList.add('modify-input');
     $label.replaceChild($modInput, $textSpan);
-    $modInput.focus();
+
+    //수정 버튼을 수정 확인버튼으로 변경
+    const $divModify = $modSpan.parentElement;
+    $divModify.innerHTML = '<span class="lnr lnr-checkmark-circle"></span>';
+}
+
+//수정 완료 이벤트 처리 함수
+function setModifyToDoText($modCheckSpan) {
+
+    //수정 완료 텍스트를 input태그에서 추출하여 다시 span.text로 변경
+    const $modInput = $modCheckSpan.parentElement.previousElementSibling.lastElementChild;
+    // console.log($modInput);
+    const $label = $modInput.parentElement;
+    const $textSpan = document.createElement('span');
+    $textSpan.classList.add('text');
+    $textSpan.textContent = $modInput.value;
+
+    $label.replaceChild($textSpan, $modInput);
+    $modCheckSpan.parentElement.innerHTML = '<span class="lnr lnr-undo"></span>';
 }
 
 //메인 실행 함수
@@ -174,7 +190,7 @@ function modifyToDoText($modSpan) {
     //할 일 완료 체크 이벤트
     const $todoList = document.querySelector('ul.todo-list');
 
-    $todoList.addEventListener('change', function(e) {
+    $todoList.addEventListener('change', function (e) {
         if (!e.target.matches('.todo-list label.checkbox input[type=checkbox]')) {
             return;
         }
@@ -184,7 +200,7 @@ function modifyToDoText($modSpan) {
     });
 
     //할 일 삭제 이벤트
-    $todoList.addEventListener('click', function(e) {
+    $todoList.addEventListener('click', function (e) {
         // console.log(e.target);
         if (!e.target.matches('.todo-list div.remove span')) {
             return;
@@ -193,14 +209,19 @@ function modifyToDoText($modSpan) {
         removeToDoData(e.target);
     });
 
-    //할 일 수정 이벤트
-    $todoList.addEventListener('click', function(e) {
+    //할 일 수정 이벤트 
+    $todoList.addEventListener('click', function (e) {
         // console.log(e.target);
-        if (!e.target.matches('.todo-list div.modify span')) {
+        if (e.target.matches('.todo-list div.modify span.lnr-undo')) {
+            console.log('수정 모드 이벤트 발생!');
+            modifyToDoText(e.target);
+        } else if (e.target.matches('.todo-list div.modify span.lnr-checkmark-circle')) {
+            console.log('수정 확인 이벤트 발생!');
+            setModifyToDoText(e.target);
+        } else {
             return;
         }
-        // console.log('수정 이벤트 발생!');
-        modifyToDoText(e.target);
     });
+
 
 }());

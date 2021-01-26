@@ -109,7 +109,6 @@ section.todo-template .content .todo-list .todo-list-item .checkbox.checked .tex
 
 section.todo-template .content .todo-list .todo-list-item .checkbox .modify-input {    
     margin-left: 4rem;
-    outline: #000;    
     border: 1px solid #000;
     border-radius: 5px;
     width: 200px;
