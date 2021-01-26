@@ -1,17 +1,8 @@
 //일정 데이터가 들어 있는 배열 선언
-const todos = [{
+const todos = [
+    {
         id: 1,
         text: '할 일 1',
-        done: true
-    },
-    {
-        id: 2,
-        text: '할 일 2',
-        done: false
-    },
-    {
-        id: 3,
-        text: '할 일 3',
         done: false
     }
 ];
@@ -32,6 +23,11 @@ function makeNewToDoNode(newToDo) {
     const $itemLi = document.createElement('li');
     const $label = document.createElement('label');
     const $div = document.createElement('div');
+    const $divMod = document.createElement('div');
+
+    //divMod태그 작업
+    $divMod.classList.add('modify');
+    $divMod.innerHTML = `<span class="lnr lnr-undo"></span>`;
 
     //label태그 작업
     $label.classList.add('checkbox');
@@ -46,6 +42,7 @@ function makeNewToDoNode(newToDo) {
     $itemLi.dataset.id = newToDo.id;
     $itemLi.classList.add('todo-list-item');
     $itemLi.appendChild($label);
+    $itemLi.appendChild($divMod);
     $itemLi.appendChild($div);
 
     // console.log($itemLi);
@@ -56,6 +53,19 @@ function makeNewToDoNode(newToDo) {
 function insertToDoData() {
 
     const $todoText = document.getElementById('todo-text');
+    //사용자가 입력을 하지 않았을 때 함수를 종료 시켜야함.
+    //trim(): 문자열의 앞 뒤 공백을 제거
+    if($todoText.value.trim() === '') {
+        // alert('필수 입력사항입니다!');
+        $todoText.setAttribute('placeholder', '필수 입력사항입니다!');
+        $todoText.style.background = 'orangered';
+        $todoText.value = '';
+        return;
+    } else {
+        $todoText.setAttribute('placeholder', '할 일을 입력하세요');
+        $todoText.removeAttribute('style');
+    }
+
 
     //1. todos 배열에 객체를 셋팅.
     const newToDo = {
@@ -113,6 +123,41 @@ function changeCheckState($checkbox) {
 
 }
 
+//할 일 삭제 처리 수행 함수
+function removeToDoData($delSpan) {
+    //1. DOM 요소 삭제
+    const $delLi = $delSpan.parentElement.parentElement;
+    // console.log($delLi);
+
+    document.querySelector('.todo-list').removeChild($delLi);
+
+    //2. 배열에서도 삭제
+    const dataId = +$delLi.dataset.id;
+    const foundIndex = findIndexByDataId(dataId);
+    if (foundIndex !== null) {
+        todos.splice(foundIndex, 1);
+    }
+    console.log(todos);
+}
+
+//수정 이벤트 처리 함수
+function modifyToDoText($modSpan) {
+
+    //label의 span을 input으로 교체
+    const $label = $modSpan.parentElement.previousElementSibling;
+    // console.log($label);
+
+    const $textSpan = $label.lastElementChild;
+    // console.log($textSpan);
+
+    const $modInput = document.createElement('input');
+    $modInput.setAttribute('type', 'text');
+    $modInput.setAttribute('value', $textSpan.textContent);
+    $modInput.classList.add('modify-input');
+    $label.replaceChild($modInput, $textSpan);
+    $modInput.focus();
+}
+
 //메인 실행 함수
 (function () {
 
@@ -136,6 +181,26 @@ function changeCheckState($checkbox) {
         //console.log('체크박스 이벤트 실행됨!');
         //console.log(e.target.parentElement);
         changeCheckState(e.target);
+    });
+
+    //할 일 삭제 이벤트
+    $todoList.addEventListener('click', function(e) {
+        // console.log(e.target);
+        if (!e.target.matches('.todo-list div.remove span')) {
+            return;
+        }
+
+        removeToDoData(e.target);
+    });
+
+    //할 일 수정 이벤트
+    $todoList.addEventListener('click', function(e) {
+        // console.log(e.target);
+        if (!e.target.matches('.todo-list div.modify span')) {
+            return;
+        }
+        // console.log('수정 이벤트 발생!');
+        modifyToDoText(e.target);
     });
 
 }());

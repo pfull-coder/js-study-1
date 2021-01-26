@@ -107,6 +107,26 @@ section.todo-template .content .todo-list .todo-list-item .checkbox.checked .tex
     text-decoration: line-through;
 }
 
+section.todo-template .content .todo-list .todo-list-item .checkbox .modify-input {    
+    margin-left: 4rem;
+    outline: #000;    
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 200px;
+    padding: 4px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+section.todo-template .content .todo-list .todo-list-item .modify {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: green;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 section.todo-template .content .todo-list .todo-list-item .remove {
     display: flex;
     align-items: center;
