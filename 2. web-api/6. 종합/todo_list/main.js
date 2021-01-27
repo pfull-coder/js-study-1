@@ -19,15 +19,16 @@ function makeNewToDoNode(newToDo) {
     const $div = document.createElement('div');
     const $divMod = document.createElement('div');
 
-    //divMod태그 작업
-    $divMod.classList.add('modify');
-    $divMod.innerHTML = `<span class="lnr lnr-undo"></span>`;
-
+    
     //label태그 작업
     $label.classList.add('checkbox');
     $label.innerHTML = `<input type="checkbox"> 
     <span class="text">${newToDo.text}</span>`;
-
+    
+    //divMod태그 작업
+    $divMod.classList.add('modify');
+    $divMod.innerHTML = `<span class="lnr lnr-undo"></span>`;
+    
     //div태그 작업
     $div.classList.add('remove');
     $div.innerHTML = `<span class="lnr lnr-cross-circle"></span>`;
