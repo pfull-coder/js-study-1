@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        label {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="input">
+        <label>
+            # 글번호: <input type="text" name="id">
+        </label>
+        <label>
+            # 글제목: <input type="text" name="title">
+        </label>
+        <label>
+            # 작성자: <input type="text" name="author">
+        </label>
+        <button id="insert">완료</button>
+    </div>
+
+    <hr>
+
+    
+
+
+    <script>
+        document.getElementById('insert').addEventListener('click', e => {
+            e.preventDefault();
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:5000/posts');
+
+            //post요청의 경우 서버로 전송할 데이터가 필요
+            const newData = {
+                id: document.querySelector('input[name=id]').value,
+                title: document.querySelector('input[name=title]').value,
+                author: document.querySelector('input[name=author]').value
+            };
+            //전송할 데이터가 어떤 형태로 서버에 전송될지 요청헤더에 지정
+            xhr.setRequestHeader('content-type', 'application/json');
+
+            //데이터와 함께 서버로 전송
+            //자바스크립트 객체를 JSON으로 변환 : JSON.stringify()
+            const newJsonData = JSON.stringify(newData);
+            xhr.send(newJsonData);
+
+            xhr.onload = () => {
+                if (xhr.status === 200 || xhr.status === 201) {
+                    alert('insert success!');
+                } else {
+                    alert('insert fail!');
+                }
+            };
+
+        });
+    </script>
+</body>
+
+</html>
